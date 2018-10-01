@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/Omega"/>
+<Context path="/omega">
+    <Resource name="omegapool" auth="Container" type="javax.sql.DataSource"
+        maxActive="10" maxIdle="5" maxWait="10000"
+        username="omega" password="budlight" driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/omega"/>
+</Context>
