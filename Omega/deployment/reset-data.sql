@@ -13,6 +13,7 @@ DELETE FROM access_permission_category;
 #
 # Permission category data
 #
+
 INSERT INTO access_permission_category(apc_id, apc_name, apc_description)
     VALUES(1, 'Administration', 'permissions related to site administration');
 INSERT INTO access_permission_category(apc_id, apc_name, apc_description)
