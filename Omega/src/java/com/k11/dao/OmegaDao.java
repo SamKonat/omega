@@ -47,6 +47,7 @@ public class OmegaDao
     
     public List<UserInfo> getUsers() throws Exception
     {
+        Connection conn = null;
         try
         {
             List<UserInfo> users = new ArrayList<>();
@@ -56,7 +57,7 @@ public class OmegaDao
                 + "ou_cr_time, DATE_FORMAT(ou_modified_date, "
                 + "'%m-%d-%Y %H:%i:%s') as ou_mo_time from omega_user u, "
                 + "user_role r where r.ur_id = u.ou_role_id";
-            Connection conn = DBConnection.getConnection();
+            conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             
@@ -84,6 +85,10 @@ public class OmegaDao
             System.out.println("Failed to fetch users from database");
             ex.printStackTrace();
             throw ex;
+        }
+        finally
+        {
+            conn.close();
         }
     }
 }
