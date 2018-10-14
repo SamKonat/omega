@@ -11,19 +11,9 @@ public class DBConnection
 {
     private static DataSource ds;
     
-    private DBConnection()
+    public void setDs(DataSource ds)
     {
-        try
-        {
-            InitialContext initialContext = new InitialContext();
-            Context context = (Context) initialContext.lookup("java:comp/env");
-            ds = (DataSource) context.lookup("omegapool");
-        }
-        catch(Exception ex)
-        {
-            System.out.println("Failed to fetch connection pool");
-            ex.printStackTrace();
-        }
+        this.ds = ds;
     }
     
     static Connection getConnection() throws SQLException

@@ -54,7 +54,7 @@ public class OmegaDao
                 + "ou_address, ou_ph_number, ou_role_id, ur_name, "
                 + "DATE_FORMAT(ou_creation_date, '%m-%d-%Y %H:%i:%s') as "
                 + "ou_cr_time, DATE_FORMAT(ou_modified_date, "
-                + "'%m-%d-%Y %H:%i:%s') as ou__time from omega_user u, "
+                + "'%m-%d-%Y %H:%i:%s') as ou_mo_time from omega_user u, "
                 + "user_role r where r.ur_id = u.ou_role_id";
             Connection conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);

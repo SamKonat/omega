@@ -25,4 +25,14 @@
         </mvc:message-converters>
     </mvc:annotation-driven> 
     <context:component-scan base-package="com.k11.rest"/>
+    
+    <bean id="DBConnection" class="com.k11.dao.DBConnection">
+        <property name="ds"  ref="ds" />   
+    </bean>
+    
+    <bean id="ds" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/omegapool"/>
+        <property name="lookupOnStartup" value="true"/>
+        <property name="proxyInterface" value="javax.sql.DataSource"/>
+    </bean>
 </beans>  
