@@ -10,29 +10,20 @@ DELETE FROM user_role;
 DELETE FROM access_permission;
 DELETE FROM access_permission_category;
 
-#
-# Permission category data
-#
-
-INSERT INTO access_permission_category(apc_id, apc_name, apc_description)
-    VALUES(1, 'Administration', 'permissions related to site administration');
-INSERT INTO access_permission_category(apc_id, apc_name, apc_description)
-    VALUES(2, 'Products', 'Permissions related to add/delete/view products');
-
 # Permissions master list
 
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(1, 'Add Role', 'Permission to add new roles',
-    'add.role', 1);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(2, 'Edit Role', 'Permission to edit roles',
-    'edit.role', 1);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(3, 'Delete Role', 'Permission to delete roles',
-    'delete.role', 1);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(4, 'View Role', 'Permission to view roles',
-    'view.role', 1);
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(1, 'Add Role', 'Permission to add new roles',
+    'add.role');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(2, 'Edit Role', 'Permission to edit roles',
+    'edit.role');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(3, 'Delete Role', 'Permission to delete roles',
+    'delete.role');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(4, 'View Role', 'Permission to view roles',
+    'view.role');
 
 #
 # User management permissions

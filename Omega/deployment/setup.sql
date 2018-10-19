@@ -4,20 +4,11 @@
  * Created: Sep 28, 2018
  */
 
-CREATE TABLE access_permission_category (
-    apc_id              INT PRIMARY KEY,
-    apc_name            VARCHAR(128) NOT NULL UNIQUE,
-    apc_description     VARCHAR(128)
-);
-
 CREATE TABLE access_permission (
     ap_id               INT PRIMARY KEY,
-    ap_name             VARCHAR(128) NOT NULL,
+    ap_name             VARCHAR(128) NOT NULL UNIQUE,
     ap_description      VARCHAR(128),
-    ap_string           VARCHAR(128) NOT NULL,
-    ap_category_id         INT NOT NULL,
-    CONSTRAINT u_name_category UNIQUE (ap_name, ap_category_id),
-    FOREIGN KEY fk_cat(ap_category_id) REFERENCES access_permission_category(acp_id)
+    ap_string           VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE user_role (
