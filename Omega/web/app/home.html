@@ -6,14 +6,11 @@
             </div>
             <div class="panel-body" style="padding-top: 30px">
                 <div class="panel-group" style="margin-top: 30px;">
-                    <div class="panel panel-default shadowBox">
+                    <div ng-repeat="manuf in manufacturers" class="panel panel-default shadowBox">
                         <div class="panel-body" style="height: 100px;margin-bottom: 10px;">
-                            <h2 class="thinMargin">Nokia</h2>
-                        </div>
-                    </div>
-                    <div class="panel panel-default shadowBox">
-                        <div class="panel-body" style="height: 100px">
-                            <h2 class="thinMargin">Motorola</h2>
+                            <h2 class="thinMargin pull-left">{{manuf.name}}</h2>
+                            <img ng-src="{{manuf.logo}}" class="pull-right" style="height: 60px; width: 60px"/>
+                            <p><label>{{manuf.description}}</label></p>
                         </div>
                     </div>
                 </div>

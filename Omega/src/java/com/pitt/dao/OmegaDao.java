@@ -1,7 +1,10 @@
 
 package com.pitt.dao;
 
+import com.pitt.domain.Constants;
+import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.UserInfo;
+import com.pitt.util.StringUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -92,18 +95,14 @@ public class OmegaDao
         }
     }
     
-    public List<UserInfo> getManufacturers() throws Exception
+    public List<ManufacturerInfo> getManufacturers() throws Exception
     {
         Connection conn = null;
         try
         {
-            List<UserInfo> users = new ArrayList<>();
-            String sql = "select ou_id, ou_first_name, ou_last_name, ou_email, "
-                + "ou_address, ou_ph_number, ou_role_id, ur_name, "
-                + "DATE_FORMAT(ou_creation_date, '%m-%d-%Y %H:%i:%s') as "
-                + "ou_cr_time, DATE_FORMAT(ou_modified_date, "
-                + "'%m-%d-%Y %H:%i:%s') as ou_mo_time from omega_user u, "
-                + "user_role r where r.ur_id = u.ou_role_id";
+            List<ManufacturerInfo> users = new ArrayList<>();
+            String sql = "select pm_id, pm_name, pm_description, pm_logo "
+                + "from phone_manufacturer;";
             conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -111,25 +110,21 @@ public class OmegaDao
             if(rs != null)
                 while(rs.next())
                 {
-                    UserInfo usr = new UserInfo();
-                    usr.setId(rs.getLong("ou_id"));
-                    usr.setFirstName(rs.getString("ou_first_name"));
-                    usr.setLastName(rs.getString("ou_last_name"));
-                    usr.setEmail(rs.getString("ou_email"));
-                    usr.setAddress(rs.getString("ou_address"));
-                    usr.setPhoneNumber(rs.getString("ou_ph_number"));
-                    usr.setRoleId(rs.getInt("ou_role_id"));
-                    usr.setRoleName(rs.getString("ur_name"));
-                    usr.setCreatedTime(rs.getString("ou_cr_time"));
-                    usr.setModifiedTime(rs.getString("ou_mo_time"));
+                    ManufacturerInfo man = new ManufacturerInfo();
+                    man.setId(rs.getLong("pm_id"));
+                    man.setName(rs.getString("pm_name"));
+                    man.setDescription(rs.getString("pm_description"));
+                    man.setLogo(Constants.IMAGE_DATA_PREFIX + 
+                        StringUtils.getBase64String(rs.getBytes("pm_logo")));
                     
-                    users.add(usr);
+                    users.add(man);
                 }
             return users;
         }
         catch(Exception ex)
         {
-            System.out.println("Failed to fetch users from database");
+            System.out.println("Failed to fetch phone manufacturers from "
+                    + "database");
             ex.printStackTrace();
             throw ex;
         }

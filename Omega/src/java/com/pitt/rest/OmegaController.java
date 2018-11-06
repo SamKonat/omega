@@ -2,7 +2,7 @@
 package com.pitt.rest;
 
 import com.pitt.dao.OmegaDao;
-import com.pitt.domain.RestError;
+import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.UserInfo;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +31,7 @@ public class OmegaController
         {
             System.out.println("Failed to fetch list of users");
             tx.printStackTrace();
-            return RestError.errorMessage("Failed to fetch list of users", 
+            throw new RestError("Failed to fetch list of users", 
                     tx.getMessage());
         }
     }
@@ -43,18 +43,18 @@ public class OmegaController
         try
         {
             OmegaDao dao = OmegaDao.getInstancce();
-            List<UserInfo> users = dao.getUsers();
-            ret.put("data", users);
-            ret.put("count", users.size());
+            List<ManufacturerInfo> mans = dao.getManufacturers();
+            ret.put("data", mans);
+            ret.put("count", mans.size());
             
             return ret;
         }
         catch(Throwable tx)
         {
-            System.out.println("Failed to fetch list of users");
+            System.out.println("Failed to fetch list of phone manufacturers");
             tx.printStackTrace();
-            return RestError.errorMessage("Failed to fetch list of users", 
-                    tx.getMessage());
+            throw new RestError(
+                "Failed to fetch list of phone manufacturers", tx.getMessage());
         }
     }
     

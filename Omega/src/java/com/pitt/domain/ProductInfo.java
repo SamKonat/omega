@@ -9,7 +9,7 @@ package com.pitt.domain;
  *
  * @author dilis
  */
-public class Products {
+public class ProductInfo {
     private Long id;
     private String productName;
     private String description;
@@ -18,7 +18,7 @@ public class Products {
     private Float price;
     private Integer quantity;
 
-    public Products() {
+    public ProductInfo() {
     }
 
     public Long getId() {
@@ -79,7 +79,7 @@ public class Products {
     
     @Override
     public String toString() {
-        return "Products{" + "id=" + id + ", productName=" + productName + 
+        return "ProductInfo{" + "id=" + id + ", productName=" + productName + 
                 ", description=" + description + ", brandId=" + brandId + 
                 ", image=" + image + ", price=" + price + ", quantity=" + 
                 quantity + '}';

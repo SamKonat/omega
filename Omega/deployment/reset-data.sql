@@ -4,6 +4,7 @@
  * Created: Sep 29, 2018
  */
 
+DELETE FROM phone_manufacturer;
 DELETE FROM omega_user;
 DELETE FROM role_permission_map;
 DELETE FROM user_role;
@@ -29,38 +30,32 @@ INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string)
 # User management permissions
 #
 
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(5, 'Add User', 'Permission to add users',
-    'add.user', 1);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(6, 'Edit User', 'Permission to edit users',
-    'edit.user', 1);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(7, 'Delete User', 'Permission to delete users',
-    'delete.user', 1);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(8, 'View User', 'Permission to view user details',
-    'view.user', 1);
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(5, 'Add User', 'Permission to add users', 'add.user');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(6, 'Edit User', 'Permission to edit users', 'edit.user');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(7, 'Delete User', 'Permission to delete users', 'delete.user');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(8, 'View User', 'Permission to view user details', 'view.user');
 
 #
 # Product management permissions
 #
 
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(9, 'Add Product', 'Permission to add products',
-    'add.product', 2);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(10, 'Edit Product', 'Permission to edit products',
-    'edit.product', 2);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(11, 'Delete Product', 'Permission to delete products',
-    'delete.product', 2);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(12, 'View Product', 'Permission to view product details',
-    'view.product', 2);
-INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string, 
-    ap_category_id) VALUES(13, 'Purchase Product', 'Permission to purchase products',
-    'purchase.product', 2);
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(9, 'Add Product', 'Permission to add products', 'add.product');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(10, 'Edit Product', 'Permission to edit products', 'edit.product');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(11, 'Delete Product', 'Permission to delete products', 
+    'delete.product');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(12, 'View Product', 'Permission to view product details',
+    'view.product');
+INSERT INTO access_permission(ap_id, ap_name, ap_description, ap_string) 
+    VALUES(13, 'Purchase Product', 'Permission to purchase products',
+    'purchase.product');
 
 #
 # Role master list

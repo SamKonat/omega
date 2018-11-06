@@ -4,6 +4,7 @@
  * Created: Sep 30, 2018
  */
 
+DROP TABLE phone_manufacturer;
 DROP TRIGGER modify_time;
 DROP TABLE omega_user;
 DROP TABLE role_permission_map;

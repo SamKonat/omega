@@ -67,6 +67,21 @@
                     </form>
                 </div>
             </nav>
+            <div class="alert alert-success" ng-show="$root.showSuccess">
+                <strong>Success!</strong> Indicates a successful or positive action.
+            </div>
+
+            <div class="alert alert-info" ng-show="$root.showInfo">
+                <strong>Info!</strong> Indicates a neutral informative change or action.
+            </div>
+
+            <div class="alert alert-warning" ng-show="$root.showWarn">
+                <strong>Warning!</strong> Indicates a warning that might need attention.
+            </div>
+
+            <div class="alert alert-danger" ng-show="$root.showDanger">
+                <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+            </div>
             <ng-view></ng-view>
         </div>
     </body>
