@@ -1,5 +1,5 @@
 
-package com.k11.domain;
+package com.pitt.domain;
 
 import java.util.HashMap;
 import java.util.Map;

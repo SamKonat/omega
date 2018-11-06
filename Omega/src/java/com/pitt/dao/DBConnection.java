@@ -1,5 +1,5 @@
 
-package com.k11.dao;
+package com.pitt.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
