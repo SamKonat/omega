@@ -65,7 +65,7 @@ public class OmegaDao
                 while(rs.next())
                 {
                     UserInfo usr = new UserInfo();
-                    usr.setId(rs.getInt("ou_id"));
+                    usr.setId(rs.getLong("ou_id"));
                     usr.setFirstName(rs.getString("ou_first_name"));
                     usr.setLastName(rs.getString("ou_last_name"));
                     usr.setEmail(rs.getString("ou_email"));
