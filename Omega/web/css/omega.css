@@ -1,0 +1,21 @@
+.main {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.containerPanel{
+    border-top:#e7eaec 5px solid;
+    background-color: #fff;
+    margin-top:14px;
+    padding:20px;
+    padding-top:15px;
+}
+.shadowBox{
+    box-shadow:2px 2px 5px #ccc;
+
+}
+.blueBackground{
+    background-color: #9B9FEF;
+}
+.thinMargin{
+    margin:5px;
+}

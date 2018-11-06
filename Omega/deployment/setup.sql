@@ -5,21 +5,21 @@
  */
 
 CREATE TABLE access_permission (
-    ap_id               INT PRIMARY KEY,
+    ap_id               INT AUTO_INCREMENT PRIMARY KEY,
     ap_name             VARCHAR(128) NOT NULL UNIQUE,
     ap_description      VARCHAR(128),
     ap_string           VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE user_role (
-    ur_id               INT PRIMARY KEY,
+    ur_id               INT AUTO_INCREMENT PRIMARY KEY,
     ur_name             VARCHAR(128) NOT NULL UNIQUE,
     ur_admin            BOOLEAN NOT NULL DEFAULT FALSE,
     ur_description      VARCHAR(128)
 );
 
 CREATE TABLE role_permission_map (
-    rpm_role_id         INT NOT NULL,
+    rpm_role_id         INT AUTO_INCREMENT NOT NULL,
     rpm_perm_id         INT NOT NULL,
     PRIMARY KEY(rpm_role_id, rpm_perm_id),
     FOREIGN KEY(rpm_role_id) REFERENCES user_role(ur_id),
@@ -41,3 +41,10 @@ CREATE TABLE omega_user (
 
 CREATE TRIGGER modify_time BEFORE UPDATE ON omega_user FOR EACH ROW SET 
     NEW.ou_modified_date = current_timestamp;
+
+CREATE TABLE phone_manufacturer (
+    pm_id               INT AUTO_INCREMENT PRIMARY KEY,
+    pm_name             VARCHAR(128) NOT NULL,
+    pm_description      VARCHAR(256),
+    pm_logo             BLOB
+);

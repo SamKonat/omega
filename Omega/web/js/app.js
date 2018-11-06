@@ -9,6 +9,9 @@ omegaApp.config(['$routeProvider', '$httpProvider',
                 }).
                 when('/home', {
                     templateUrl: 'app/home.html'
+                }). 
+                when('/devices', {
+                    templateUrl: 'app/devices.html'
                 }).      
                 otherwise({
                     redirectTo: '/'
@@ -18,7 +21,7 @@ omegaApp.config(['$routeProvider', '$httpProvider',
 omegaApp.run(function ($rootScope,$filter, $route, $http, $cookies, 
     $location, $window)
 {
-    
+    $rootScope.siteName = "Just Buy";
 });
 
 omegaApp.controller('omegaCtrl', function ($scope, $rootScope, $http, 
