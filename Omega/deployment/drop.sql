@@ -5,6 +5,7 @@
  */
 
 DROP TABLE phone_manufacturer;
+DROP TABLE user_transaction;
 DROP TRIGGER modify_time;
 DROP TABLE omega_user;
 DROP TABLE role_permission_map;
