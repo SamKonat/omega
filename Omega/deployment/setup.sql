@@ -48,3 +48,15 @@ CREATE TABLE phone_manufacturer (
     pm_description      VARCHAR(256),
     pm_logo             BLOB
 );
+
+CREATE TABLE user_transaction (
+    ut_id               BIGINT AUTO_INCREMENT PRIMARY KEY,
+    ut_productId        BIGINT AUTO_INCREMENT NOT NULL,
+    ut_userId           BIGINT AUTO_INCREMENT NOT NULL,
+    ut_price            FLOAT NOT NULL,
+    ut_status           VARCHAR(64) NOT NULL,
+    ut_deliveryStatus   VARCHAR(64) NOT NULL,
+    ut_type             VARCHAR(64) NOT NULL,
+    FOREIGN KEY(ut_productId) REFERENCES products(p_id),
+    FOREIGN KEY(ut_userId ) REFERENCES omega_user(ou_id)
+);
