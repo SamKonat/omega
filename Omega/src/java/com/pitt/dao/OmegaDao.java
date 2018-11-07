@@ -4,6 +4,7 @@ package com.pitt.dao;
 import com.pitt.domain.Constants;
 import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.UserInfo;
+import com.pitt.domain.Transaction;
 import com.pitt.util.StringUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -133,4 +134,45 @@ public class OmegaDao
             conn.close();
         }
     }
+    
+    public List<Transaction> getTransactions() throws Exception
+    {
+        Connection conn = null;
+        try
+        {
+            List<Transaction> users = new ArrayList<>();
+            String sql = "ut_id, ut_productId, ut_userId, ut_price, ut_status,"
+                + "ut_deliveryStatus, ut_type from user_transaction;";
+            conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs != null)
+                while(rs.next())
+                {
+                    Transaction tran = new Transaction();
+                    tran.setId(rs.getLong("ut_id"));
+                    tran.setProductId(rs.getLong("ut_productId"));
+                    tran.setUserId(rs.getLong("ut_userId"));
+                    tran.setPrice(rs.getFloat("ut_price"));
+                    tran.setStatus(rs.getString("ut_status"));
+                    tran.setDeliveryStatus(rs.getString("ut_deliveryStatus"));
+                    tran.setType(rs.getString("ut_type"));
+                    
+                    users.add(tran);
+                }
+            return users;
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Failed to fetch transactions from "
+                    + "database");
+            ex.printStackTrace();
+            throw ex;
+        }
+        finally
+        {
+            conn.close();
+        }
+    }    
 }
