@@ -4,6 +4,7 @@ package com.pitt.rest;
 import com.pitt.dao.OmegaDao;
 import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.UserInfo;
+import com.pitt.domain.Transaction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,4 +59,25 @@ public class OmegaController
         }
     }
     
+    @RequestMapping(method = RequestMethod.GET, value = "/transactions")
+    public Map<String, Object> getTransactions()
+    {
+        Map<String, Object> ret = new HashMap<>();
+        try
+        {
+            OmegaDao dao = OmegaDao.getInstancce();
+            List<Transaction> trans = dao.getTransactions();
+            ret.put("data", trans);
+            ret.put("count", trans.size());
+            
+            return ret;
+        }
+        catch(Throwable tx)
+        {
+            System.out.println("Failed to fetch list of transactions");
+            tx.printStackTrace();
+            throw new RestError(
+                "Failed to fetch list of transactions", tx.getMessage());
+        }
+    }
 }
