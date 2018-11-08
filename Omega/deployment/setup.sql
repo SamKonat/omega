@@ -60,3 +60,14 @@ CREATE TABLE user_transaction (
     FOREIGN KEY(ut_productId) REFERENCES products(p_id),
     FOREIGN KEY(ut_userId ) REFERENCES omega_user(ou_id)
 );
+
+CREATE TABLE products (
+    p_id               BIGINT AUTO_INCREMENT PRIMARY KEY,
+    p_name             VARCHAR(128) NOT NULL,
+    p_description      VARCHAR(256),
+    p_manufacturer_id  BIGINT NOT NULL,
+    p_image            BLOB,
+    p_quantity         INT NOT NULL,
+    p_price            FLOAT NOT NULL,
+    FOREIGN KEY(p_manufacturer_id) REFERENCES phone_manufacturer(pm_id)
+);

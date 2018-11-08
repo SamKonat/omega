@@ -13,7 +13,7 @@ public class ProductInfo {
     private Long id;
     private String productName;
     private String description;
-    private String brandId;
+    private Long manufacturerId;
     private String image;
     private Float price;
     private Integer quantity;
@@ -45,12 +45,12 @@ public class ProductInfo {
         this.description = description;
     }
 
-    public String getBrandId() {
-        return brandId;
+    public Long getManufacturerId() {
+        return manufacturerId;
     }
 
-    public void setBrandId(String brandId) {
-        this.brandId = brandId;
+    public void setManufacturerId(Long manufacturerId) {
+        this.manufacturerId = manufacturerId;
     }
 
     public String getImage() {
@@ -80,7 +80,7 @@ public class ProductInfo {
     @Override
     public String toString() {
         return "ProductInfo{" + "id=" + id + ", productName=" + productName + 
-                ", description=" + description + ", brandId=" + brandId + 
+                ", description=" + description + ", brandId=" + manufacturerId + 
                 ", image=" + image + ", price=" + price + ", quantity=" + 
                 quantity + '}';
     } 

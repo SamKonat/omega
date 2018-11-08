@@ -1,1 +1,20 @@
-<h1>All phones here.</h1>
+<div class="container ">
+    <div class="panel-group" style="margin-top: 30px;">
+        <div class="panel panel-default shadowBox" style="height: 500px">
+            <div class="panel-heading">
+                <label>Products</label>
+            </div>
+            <div class="panel-body" style="padding-top: 30px">
+                <div class="panel-group" style="margin-top: 30px;">
+                    <div ng-repeat="product in products" class="panel panel-default shadowBox">
+                        <div class="panel-body" style="height: 100px;margin-bottom: 10px;">
+                            <h2 class="thinMargin pull-left">{{product.name}}</h2>
+                            <img ng-src="{{product.image}}" class="pull-right" style="height: 60px; width: 60px"/>
+                            <p><label>{{product.description}}</label></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
