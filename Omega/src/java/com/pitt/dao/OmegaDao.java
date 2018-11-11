@@ -3,6 +3,7 @@ package com.pitt.dao;
 
 import com.pitt.domain.Constants;
 import com.pitt.domain.ManufacturerInfo;
+import com.pitt.domain.ProductInfo;
 import com.pitt.domain.UserInfo;
 import com.pitt.domain.Transaction;
 import com.pitt.util.StringUtils;
@@ -33,9 +34,9 @@ public class OmegaDao
         try
         {
             conn = DBConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.executeUpdate();
-        }
+                 PreparedStatement ps = conn.prepareStatement(sql);
+                 ps.executeUpdate();
+            }
         catch(SQLException tx)
         {
             System.out.println("Failed to insert/update object with query '" 
@@ -174,5 +175,49 @@ public class OmegaDao
         {
             conn.close();
         }
-    }    
+    } 
+    
+    public List<ProductInfo> getProducts() throws Exception
+    {
+        Connection conn = null;
+        try
+        {
+            List<ProductInfo> productsList = new ArrayList<>();
+            ManufacturerInfo manufacturer = new ManufacturerInfo();
+            String sql = "select p_id, p_name, p_description, p_image, "
+                + "p_quantity, p_price"
+                + "from products where p_manufacturer_id = '" 
+                + manufacturer.getId() + "';";
+            conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs != null)
+                while(rs.next())
+                {
+                    ProductInfo products = new ProductInfo();
+                    products.setId(rs.getLong("p_id"));
+                    products.setProductName(rs.getString("p_name"));
+                    products.setDescription(rs.getString("p_description"));
+                    products.setPrice(rs.getFloat("p_price"));
+                    products.setQuantity(rs.getInt("p_quantity"));
+                    products.setImage(Constants.IMAGE_DATA_PREFIX + 
+                        StringUtils.getBase64String(rs.getBytes("p_image")));
+                    
+                    productsList.add(products);
+                }
+            return productsList;
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Failed to fetch products from "
+                    + "database");
+            ex.printStackTrace();
+            throw ex;
+        }
+        finally
+        {
+            conn.close();
+        }
+    }
 }
