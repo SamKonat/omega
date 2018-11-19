@@ -177,17 +177,16 @@ public class OmegaDao
         }
     } 
     
-    public List<ProductInfo> getProducts() throws Exception
+    public List<ProductInfo> getProducts(long manId) throws Exception
     {
         Connection conn = null;
         try
         {
             List<ProductInfo> productsList = new ArrayList<>();
-            ManufacturerInfo manufacturer = new ManufacturerInfo();
-            String sql = "select p_id, p_name, p_description, p_image, "
-                + "p_quantity, p_price"
-                + "from products where p_manufacturer_id = '" 
-                + manufacturer.getId() + "';";
+            String sql = "select p_id, p_name, p_description, "
+                + "p_quantity, p_price "
+                + "from products where p_manufacturer_id = " 
+                + manId + ";";
             conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -201,8 +200,7 @@ public class OmegaDao
                     products.setDescription(rs.getString("p_description"));
                     products.setPrice(rs.getFloat("p_price"));
                     products.setQuantity(rs.getInt("p_quantity"));
-                    products.setImage(Constants.IMAGE_DATA_PREFIX + 
-                        StringUtils.getBase64String(rs.getBytes("p_image")));
+                    
                     
                     productsList.add(products);
                 }

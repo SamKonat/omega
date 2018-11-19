@@ -80,7 +80,7 @@
             </div>
 
             <div class="alert alert-danger" ng-show="$root.showDanger">
-                <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                <strong>Danger!</strong> {{$root.dangerMsg}}
             </div>
             <ng-view></ng-view>
         </div>

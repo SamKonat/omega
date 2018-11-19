@@ -9,6 +9,7 @@ import com.pitt.domain.Transaction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,14 +83,16 @@ public class OmegaController
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "/products")
-    public Map<String, Object> getProducts()
+    @RequestMapping(method = RequestMethod.GET, value = "/manufacturer/{id}/products")
+    public Map<String, Object> getProducts(
+            @PathVariable("id") long manId
+    )
     {
         Map<String, Object> ret = new HashMap<>();
         try
         {
             OmegaDao dao = OmegaDao.getInstancce();
-            List<ProductInfo> productsList = dao.getProducts();
+            List<ProductInfo> productsList = dao.getProducts(manId);
             ret.put("data", productsList);
             ret.put("count", productsList.size());
             
