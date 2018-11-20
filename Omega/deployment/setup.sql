@@ -51,8 +51,8 @@ CREATE TABLE phone_manufacturer (
 
 CREATE TABLE user_transaction (
     ut_id               BIGINT AUTO_INCREMENT PRIMARY KEY,
-    ut_productId        BIGINT AUTO_INCREMENT NOT NULL,
-    ut_userId           BIGINT AUTO_INCREMENT NOT NULL,
+    ut_productId        BIGINT NOT NULL,
+    ut_userId           BIGINT NOT NULL,
     ut_price            FLOAT NOT NULL,
     ut_status           VARCHAR(64) NOT NULL,
     ut_deliveryStatus   VARCHAR(64) NOT NULL,
