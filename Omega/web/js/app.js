@@ -15,7 +15,15 @@ omegaApp.config(['$routeProvider', '$httpProvider',
                 when('/products', {
                     templateUrl: 'app/products.html',
                     controller: 'productsCtrl'
-                }).      
+                }). 
+                when('/reviews', {
+                    templateUrl: 'app/productdetails.html',
+                    controller: 'reviewsCtrl'
+                }).
+                when('/productdetails', {
+                    templateUrl: 'app/productdetails.html',
+                    controller: 'productdetailsCtrl'
+                }).
                 otherwise({
                     redirectTo: '/'
                 });
@@ -73,6 +81,32 @@ omegaApp.controller('productsCtrl', function ($scope, $rootScope, $http,
     $http.get($rootScope.httpUrl + "/api/manufacturer/" + $rootScope.manufacturerId + "/products")
             .success(function(data){
                 $scope.devices = data.data;
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            });
+});
+
+omegaApp.controller('reviewsCtrl', function ($scope, $rootScope, $http, 
+    $routeParams)
+{
+    $rootScope.resetDialogs();
+    $http.get($rootScope.httpUrl + "/api/products" + $rootScope.productId + "/productdetails")
+            .success(function(data){
+                $scope.reviews = data.data;
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            });
+});
+
+omegaApp.controller('productdetailsCtrl', function ($scope, $rootScope, $http, 
+    $routeParams)
+{
+    $rootScope.resetDialogs();
+    $http.get($rootScope.httpUrl + "/api/products" + $rootScope.productId + "/productdetails")
+            .success(function(data){
+                $scope.productdetails = data.data;
             }).error(function(data){
                 $rootScope.showDanger = true;
                 $rootScope.dangerMsg = data.message;
