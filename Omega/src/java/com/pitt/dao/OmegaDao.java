@@ -6,7 +6,6 @@ import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.ProductInfo;
 import com.pitt.domain.UserInfo;
 import com.pitt.domain.Transaction;
-import com.pitt.domain.Review;
 import com.pitt.util.StringUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -210,90 +209,6 @@ public class OmegaDao
         catch(SQLException ex)
         {
             System.out.println("Failed to fetch products from "
-                    + "database");
-            ex.printStackTrace();
-            throw ex;
-        }
-        finally
-        {
-            conn.close();
-        }
-    }
-    
-    public List<Review> getReviews(long prodId) throws Exception
-    {
-        Connection conn = null;
-        try
-        {
-            List<Review> reviews = new ArrayList<>();
-            String sql = "select r_id, r_notes, r_rating, "
-                + "r_product_id, r_user_id, r_date "
-                + "from reviews where r_product_id = " 
-                + prodId + ";";
-            conn = DBConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs != null)
-                while(rs.next())
-                {
-                    Review r = new Review();
-                    r.setId(rs.getLong("r_id"));
-                    r.setNotes(rs.getString("r_notes"));
-                    r.setRating(rs.getFloat("r_rating"));
-                    r.setProductId(rs.getLong("r_product_id"));
-                    r.setUserId(rs.getLong("r_user_id"));
-                    r.setDate(rs.getString("r_date"));
-                    
-                    
-                    reviews.add(r);
-                }
-            return reviews;
-        }
-        catch(SQLException ex)
-        {
-            System.out.println("Failed to fetch reviews from "
-                    + "database");
-            ex.printStackTrace();
-            throw ex;
-        }
-        finally
-        {
-            conn.close();
-        }
-    }
-    
-    public List<ProductInfo> getProductdetails(long prodId) throws Exception
-    {
-        Connection conn = null;
-        try
-        {
-            List<ProductInfo> productdetailslist = new ArrayList<>();
-            String sql = "select p_id, p_name, p_description, "
-                + "p_quantity, p_price "
-                + "from products where p_id = " 
-                + prodId + ";";
-            conn = DBConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs != null)
-                while(rs.next())
-                {
-                    ProductInfo pr = new ProductInfo();
-                    pr.setId(rs.getLong("p_id"));
-                    pr.setProductName(rs.getString("p_name"));
-                    pr.setDescription(rs.getString("p_description"));
-                    pr.setPrice(rs.getFloat("p_price"));
-                    pr.setQuantity(rs.getInt("p_quantity"));
-                    
-                    productdetailslist.add(pr);
-                }
-            return productdetailslist;
-        }
-        catch(SQLException ex)
-        {
-            System.out.println("Failed to fetch product details from "
                     + "database");
             ex.printStackTrace();
             throw ex;
