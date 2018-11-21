@@ -8,7 +8,7 @@
 .grid-item {
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
-  font-size: 30px;
+  font-size: 10px;
   text-align: center;
 }
 </style>
@@ -22,8 +22,9 @@
                 <div class="grid-container">
                     <div ng-repeat="product in products" class="panel panel-default shadowBox">
                         <div class="grid-item">
-                            <h2 class="thinMargin pull-left">{{product.productName}}</h2>
+                            <h3 class="thinMargin pull-left">{{product.productName}}</h3>
                             <p><label>{{product.description}}</label></p>
+                            <button ng-click="getDetails(product.id)">View Details</button>
                         </div>
                     </div>
                 </div>

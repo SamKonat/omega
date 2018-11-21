@@ -72,9 +72,14 @@ omegaApp.controller('productsCtrl', function ($scope, $rootScope, $http,
     $rootScope.resetDialogs();
     $http.get($rootScope.httpUrl + "/api/manufacturer/" + $rootScope.manufacturerId + "/products")
             .success(function(data){
-                $scope.devices = data.data;
+                $scope.products = data.data;
             }).error(function(data){
                 $rootScope.showDanger = true;
                 $rootScope.dangerMsg = data.message;
             });
+    $scope.getDetails = function(productId)
+    {
+        $rootScope.productId = productId;
+        $rootScope.navigate('/productsDetails');
+    };
 });
