@@ -74,11 +74,6 @@ omegaApp.controller('homeCtrl', function ($scope, $rootScope, $http,
     }
 });
 
-
-
-
-
-
 omegaApp.controller('productsCtrl', function ($scope, $rootScope, $http, 
     $routeParams)
 {
