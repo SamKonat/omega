@@ -71,3 +71,14 @@ CREATE TABLE products (
     p_price            FLOAT NOT NULL,
     FOREIGN KEY(p_manufacturer_id) REFERENCES phone_manufacturer(pm_id)
 );
+
+CREATE TABLE reviews (
+    r_id               BIGINT AUTO_INCREMENT PRIMARY KEY,
+    r_notes            VARCHAR(400),
+    r_rating           FLOAT,
+    r_product_id       BIGINT NOT NULL,
+    r_user_id          BIGINT NOT NULL,
+    r_date             DATETIME,
+    FOREIGN KEY(r_product_id ) REFERENCES products(p_id),
+    FOREIGN KEY(r_user_id ) REFERENCES omega_user(ou_id),
+);

@@ -148,3 +148,18 @@ INSERT INTO products (p_id, p_name, p_description, p_manufacturer_id, p_quantity
 	VALUES (013,'Nokia Lumia 150', 'test description', 1, 100, 200);
 INSERT INTO products (p_id, p_name, p_description, p_manufacturer_id, p_quantity, p_price) 
 	VALUES (02,'iPhone 6s', 'test', 2, 50, 250);
+
+#
+# Phone Reviews
+#
+
+INSERT INTO reviews (r_id, r_notes, r_rating, r_product_id, r_user_id, r_date) 
+        VALUES(1, 'awesome', 4, 01, , 1 , '2017-05-01');
+INSERT INTO reviews (r_id, r_notes, r_rating, r_product_id, r_user_id, r_date) 
+        VALUES(2, 'average', 2, 011, , 1 , '2016-04-01');
+INSERT INTO reviews (r_id, r_notes, r_rating, r_product_id, r_user_id, r_date) 
+        VALUES(3, 'good', 3, 012, , 3 , '2015-03-01');
+INSERT INTO reviews (r_id, r_notes, r_rating, r_product_id, r_user_id, r_date) 
+        VALUES(4, 'poor', 1, 012, , 4 , '2014-02-01');
+INSERT INTO reviews (r_id, r_notes, r_rating, r_product_id, r_user_id, r_date) 
+        VALUES(5, 'expensive', 2, 01 , 4 , '2013-01-01');

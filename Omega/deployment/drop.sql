@@ -11,3 +11,4 @@ DROP TABLE omega_user;
 DROP TABLE role_permission_map;
 DROP TABLE user_role;
 DROP TABLE access_permission;
+DROP TABLE review;
