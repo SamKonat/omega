@@ -57,18 +57,19 @@ public class OmegaDao
         }
     }
     
-    public List<UserInfo> getUsers() throws Exception
+    public List<UserInfo> getUsers(String userName, String password) throws Exception
     {
         Connection conn = null;
         try
         {
             List<UserInfo> users = new ArrayList<>();
-            String sql = "select ou_id, ou_first_name, ou_last_name, ou_email, "
+            String sql = "select ou_id, ou_password, ou_first_name, "
+                + "ou_last_name, ou_email, "
                 + "ou_address, ou_ph_number, ou_role_id, ur_name, "
                 + "DATE_FORMAT(ou_creation_date, '%m-%d-%Y %H:%i:%s') as "
                 + "ou_cr_time, DATE_FORMAT(ou_modified_date, "
-                + "'%m-%d-%Y %H:%i:%s') as ou_mo_time from omega_user u, "
-                + "user_role r where r.ur_id = u.ou_role_id";
+                + "'%m-%d-%Y %H:%i:%s') as ou_mo_time from omega_user, "
+                + "ou_email = '"+userName+"' and ou_password = '"+password+"';";
             conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -81,6 +82,7 @@ public class OmegaDao
                     usr.setFirstName(rs.getString("ou_first_name"));
                     usr.setLastName(rs.getString("ou_last_name"));
                     usr.setEmail(rs.getString("ou_email"));
+                    usr.setPassword("ou_password");
                     usr.setAddress(rs.getString("ou_address"));
                     usr.setPhoneNumber(rs.getString("ou_ph_number"));
                     usr.setRoleId(rs.getInt("ou_role_id"));
@@ -94,7 +96,7 @@ public class OmegaDao
         }
         catch(Exception ex)
         {
-            System.out.println("Failed to fetch users from database");
+            System.out.println("Incorrect Username or password");
             ex.printStackTrace();
             throw ex;
         }

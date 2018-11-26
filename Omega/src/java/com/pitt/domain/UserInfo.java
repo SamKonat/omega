@@ -1,12 +1,16 @@
 
 package com.pitt.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties
 public class UserInfo 
 {
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String phoneNumber;
     private String address;
     private String roleName;
@@ -95,4 +99,13 @@ public class UserInfo
     public void setModifiedTime(String modifiedTime) {
         this.modifiedTime = modifiedTime;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
 }

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,14 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OmegaController 
 {
-    @RequestMapping(method = RequestMethod.GET, value = "/users")
-    public Map<String, Object> getUsers()
+    private static HashMap<String, Boolean> LOGGED_IN_USERS = new HashMap<>();
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    public Map<String, Object> getUsers(@RequestBody UserInfo login)
     {
         Map<String, Object> ret = new HashMap<>();
         try
         {
             OmegaDao dao = OmegaDao.getInstancce();
-            List<UserInfo> users = dao.getUsers();
+            List<UserInfo> users = dao.getUsers(login.getEmail(), login.getPassword());
+            LOGGED_IN_USERS.put(users.get(0).getEmail(), true);
             ret.put("data", users);
             ret.put("count", users.size());
             

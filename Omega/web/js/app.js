@@ -28,6 +28,10 @@ omegaApp.config(['$routeProvider', '$httpProvider',
                     templateUrl: 'app/dashboard.html',
                     controller: 'dashboardCtrl'
                 }).
+                when('/signIn', {
+                    templateUrl: 'app/signIn.html',
+                    controller: 'signInCtrl'
+                }).
                 otherwise({
                     redirectTo: '/'
                 });
@@ -38,6 +42,7 @@ omegaApp.run(function ($rootScope,$filter, $route, $http, $cookies,
 {
     $rootScope.siteName = "Just Buy";
     $rootScope.httpUrl = "http://localhost:8080/omega";
+    $rootScope.currentPage = "/";
     
     $rootScope.resetDialogs = function()
     {
@@ -50,6 +55,9 @@ omegaApp.run(function ($rootScope,$filter, $route, $http, $cookies,
     
     $rootScope.navigate = function(path)
     {
+        if(path != "/signIn")
+            $rootScope.currentPage = path;
+        
         $location.path(path);
     }
 });
@@ -75,7 +83,12 @@ omegaApp.controller('homeCtrl', function ($scope, $rootScope, $http,
     {
         $rootScope.manufacturerId = manId;
         $rootScope.navigate('/products');
-    }
+    };
+    
+    $scope.signIn = function()
+    {
+        $rootScope.navigate('/signIn');
+    };
 });
 
 omegaApp.controller('productsCtrl', function ($scope, $rootScope, $http, 
@@ -94,6 +107,26 @@ omegaApp.controller('productsCtrl', function ($scope, $rootScope, $http,
         $rootScope.productId = prodId;
         $rootScope.navigate('/productdetails');
     };
+});
+
+omegaApp.controller('signInCtrl', function ($scope, $rootScope, $http, 
+    $routeParams)
+{
+    $rootScope.resetDialogs();
+    $http.get($rootScope.httpUrl + "/api/signIn")
+            .success().error(function(data){    
+            });
+    $scope.executeLogin = function(login) {
+        $http.post($rootScope.httpUrl + "/api/login", login)  
+            .success(function(data){
+                $rootScope.navigate($rootScope.currentPage);
+
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            })
+  
+        };
 });
 
 omegaApp.controller('productdetailsCtrl', function ($scope, $rootScope, $http, 

@@ -36,6 +36,7 @@ CREATE TABLE omega_user (
     ou_role_id          BIGINT NOT NULL,
     ou_creation_date    TIMESTAMP NOT NULL DEFAULT current_timestamp,
     ou_modified_date    TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    ou_password         VARCHAR(50) NOT NULL,
     FOREIGN KEY(ou_role_id) REFERENCES user_role(ur_id)
 );
 

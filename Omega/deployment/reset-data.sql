@@ -110,20 +110,20 @@ INSERT INTO role_permission_map(rpm_role_id, rpm_perm_id) VALUES(3,13);
 #
 
 INSERT INTO omega_user(ou_id, ou_first_name, ou_last_name, ou_email, ou_ph_number,
-    ou_address, ou_role_id) VALUES(1, 'Admin', 'Omega', 'admin@omega.com',
-    '4127730994', '3295 Kennett Square', 1);
+    ou_address, ou_role_id, ou_password) VALUES(1, 'Admin', 'Omega', 'admin@omega.com',
+    '4127730994', '3295 Kennett Square', 1, 'test1');
 INSERT INTO omega_user(ou_id, ou_first_name, ou_last_name, ou_email, ou_ph_number,
-    ou_address, ou_role_id) VALUES(2, 'Operator', 'Omega', 'operator@omega.com',
-    '4127730994', '3295 Kennett Square', 2);
+    ou_address, ou_role_id, ou_password) VALUES(2, 'Operator', 'Omega', 'operator@omega.com',
+    '4127730994', '3295 Kennett Square', 2, 'test2');
 INSERT INTO omega_user(ou_id, ou_first_name, ou_last_name, ou_email, ou_ph_number,
-    ou_address, ou_role_id) VALUES(3, 'Dilisha', 'Naidu', 'din10@pitt.edu',
-    '4127730994', '3295 Kennett Square', 3);
+    ou_address, ou_role_id, ou_password) VALUES(3, 'Dilisha', 'Naidu', 'din10@pitt.edu',
+    '4127730994', '3295 Kennett Square', 3, 'test3');
 INSERT INTO omega_user(ou_id, ou_first_name, ou_last_name, ou_email, ou_ph_number,
-    ou_address, ou_role_id) VALUES(4, 'Sohini', 'Palit', 'soh12@pitt.edu',
-    '4127730994', '3295 Kennett Square', 3);
+    ou_address, ou_role_id, ou_password) VALUES(4, 'Sohini', 'Palit', 'soh12@pitt.edu',
+    '4127730994', '3295 Kennett Square', 3, 'test4');
 INSERT INTO omega_user(ou_id, ou_first_name, ou_last_name, ou_email, ou_ph_number,
-    ou_address, ou_role_id) VALUES(5, 'Samuel', 'Konat', 'sjk124@pitt.edu',
-    '4127730994', '3295 Kennett Square', 3);
+    ou_address, ou_role_id, ou_password) VALUES(5, 'Samuel', 'Konat', 'sjk124@pitt.edu',
+    '4127730994', '3295 Kennett Square', 3, 'test5');
 
 #
 # Phone Manufacturers
