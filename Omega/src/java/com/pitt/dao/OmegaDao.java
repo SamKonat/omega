@@ -2,10 +2,11 @@
 package com.pitt.dao;
 
 import com.pitt.domain.Constants;
+import static com.pitt.domain.Constants.CHART_COLORS;
 import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.ProductInfo;
 import com.pitt.domain.UserInfo;
-import com.pitt.domain.Transaction;
+import com.pitt.domain.OrderInfo;
 import com.pitt.domain.Review;
 import com.pitt.util.StringUtils;
 import java.sql.Connection;
@@ -13,7 +14,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class OmegaDao 
 {
@@ -137,46 +143,46 @@ public class OmegaDao
         }
     }
     
-    public List<Transaction> getTransactions() throws Exception
-    {
-        Connection conn = null;
-        try
-        {
-            List<Transaction> users = new ArrayList<>();
-            String sql = "ut_id, ut_productId, ut_userId, ut_price, ut_status,"
-                + "ut_deliveryStatus, ut_type from user_transaction;";
-            conn = DBConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs != null)
-                while(rs.next())
-                {
-                    Transaction tran = new Transaction();
-                    tran.setId(rs.getLong("ut_id"));
-                    tran.setProductId(rs.getLong("ut_productId"));
-                    tran.setUserId(rs.getLong("ut_userId"));
-                    tran.setPrice(rs.getFloat("ut_price"));
-                    tran.setStatus(rs.getString("ut_status"));
-                    tran.setDeliveryStatus(rs.getString("ut_deliveryStatus"));
-                    tran.setType(rs.getString("ut_type"));
-                    
-                    users.add(tran);
-                }
-            return users;
-        }
-        catch(Exception ex)
-        {
-            System.out.println("Failed to fetch transactions from "
-                    + "database");
-            ex.printStackTrace();
-            throw ex;
-        }
-        finally
-        {
-            conn.close();
-        }
-    } 
+//    public List<Transaction> getTransactions() throws Exception
+//    {
+//        Connection conn = null;
+//        try
+//        {
+//            List<Transaction> users = new ArrayList<>();
+//            String sql = "ut_id, ut_productId, ut_userId, ut_price, ut_status,"
+//                + "ut_deliveryStatus, ut_type from user_transaction;";
+//            conn = DBConnection.getConnection();
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ResultSet rs = ps.executeQuery();
+//            
+//            if(rs != null)
+//                while(rs.next())
+//                {
+//                    Transaction tran = new Transaction();
+//                    tran.setId(rs.getLong("ut_id"));
+//                    tran.setProductId(rs.getLong("ut_productId"));
+//                    tran.setUserId(rs.getLong("ut_userId"));
+//                    tran.setPrice(rs.getFloat("ut_price"));
+//                    tran.setStatus(rs.getString("ut_status"));
+//                    tran.setDeliveryStatus(rs.getString("ut_deliveryStatus"));
+//                    tran.setType(rs.getString("ut_type"));
+//                    
+//                    users.add(tran);
+//                }
+//            return users;
+//        }
+//        catch(Exception ex)
+//        {
+//            System.out.println("Failed to fetch transactions from "
+//                    + "database");
+//            ex.printStackTrace();
+//            throw ex;
+//        }
+//        finally
+//        {
+//            conn.close();
+//        }
+//    } 
     
     public List<ProductInfo> getProducts(long manId) throws Exception
     {
@@ -301,6 +307,133 @@ public class OmegaDao
         finally
         {
             conn.close();
+        }
+    }
+    
+    public List<Map<String, Object>> getBrandSales(String period) throws Exception
+    {
+        Connection conn = null;
+        try
+        {
+            List<Map<String, Object>> ret = new ArrayList<>();
+            Map<String, Object> elem = new HashMap<>();
+            String xtraWhere = "";
+            if(period != null) {
+                xtraWhere = " and ";
+                switch(xtraWhere) {
+                    case "daily" :
+                        xtraWhere = " date(od_creation_date) = current_date ";
+                        break;
+                    case "mothly" :
+                        xtraWhere = " month(od_creation_date) = month("
+                                + "current_date) and year(od_creation_date) = "
+                                + "year(current_date) ";
+                        break;
+                    case "yearly" :
+                        xtraWhere = " year(od_creation_date) = year(current_date) ";
+                        break;
+                }
+            }
+            String sql = "select count(o.od_id) as cnt, m.pm_name from phone_manufacturer m, "
+                + "products p, orders o where o.od_product_id = p.p_id and "
+                + "p.p_manufacturer_id = m.pm_id " + xtraWhere 
+                + " group by o.od_product_id order by pm_name limit 10;";
+            conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            Iterator iter = CHART_COLORS.keySet().iterator();
+            if(rs != null)
+                while(rs.next())
+                {
+                    elem = new HashMap<>();
+                    elem.put("label", rs.getString("pm_name"));
+                    elem.put("value", rs.getString("cnt"));
+                    elem.put("color", CHART_COLORS.get(iter.next()));
+                    
+                    ret.add(elem);
+                }
+            
+            return ret;
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Failed to find top selling brands from database");
+            ex.printStackTrace();
+            throw ex;
+        }
+        finally
+        {
+            conn.close();
+        }
+    }
+    
+    public Map<String, Object> getSalesTrend(String period) 
+        throws Exception
+    {
+        Connection conn = null;
+        try
+        {
+            Map<String, Object> ret = new HashMap<>();
+            String xtraSelect = " date(od_creation_date) as label ";
+            String xtraWhere = " group by date(od_creation_date)";
+            if(period != null) {
+                switch(xtraWhere) {
+                    case "mothly" :
+                        xtraSelect = " substring(monthname(od_creation_date), 1, 3) as label ";
+                        xtraWhere = " group by month(od_creation_date)";
+                        break;
+                    case "yearly" :
+                        xtraSelect = " year(od_creation_date) as label ";
+                        xtraWhere = " group by year(od_creation_date)";
+                        break;
+                }
+            }
+            String sql = "select count(o.od_id) as cnt, " + xtraSelect
+                + " from phone_manufacturer m, products p, orders o where "
+                + "o.od_product_id = p.p_id and p.p_manufacturer_id = m.pm_id " 
+                + xtraWhere + " order by od_creation_date desc limit 10;";
+            System.out.println(sql);
+            conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            List<String> labels = new ArrayList<>();
+            List<Integer> values = new ArrayList<>();
+            if(rs != null)
+                while(rs.next())
+                {
+                    String label = rs.getString("label");
+                    Integer value = rs.getInt("cnt");
+                    
+                    labels.add(label);
+                    values.add(value);
+                }
+            
+            Collections.reverse(labels);
+            Collections.reverse(values);
+            ret.put("labels", labels);
+            String col = CHART_COLORS.get("blue");
+            List<Map<String, Object>> datasets = new ArrayList<>();
+            Map<String, Object> map = new HashMap<>();
+            map.put("data", values);
+            map.put("label", "Products Sold");
+            map.put("fillColor", "rgba(0,0,0,0.1)");
+            map.put("strokeColor", col);
+            map.put("pointColor", col);
+            map.put("pointStrokeColor", "rgba(128,128,128,1.0)");
+            map.put("pointHighlightFill", "rgba(128,128,128,1.0)");
+            
+            datasets.add(map);
+            
+            ret.put("datasets", datasets);
+            return ret;
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Failed to find sales trend from database");
+            ex.printStackTrace();
+            throw ex;
         }
     }
 }

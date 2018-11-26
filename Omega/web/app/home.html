@@ -1,17 +1,19 @@
 <div class="container ">
     <div class="panel-group" style="margin-top: 30px;">
-        <div class="panel panel-default shadowBox" style="height: 500px">
+        <div class="panel panel-default shadowBox" >
             <div class="panel-heading">
                 <label>Manufacturers</label>
             </div>
             <div class="panel-body" style="padding-top: 30px">
                 <div class="panel-group" style="margin-top: 30px;">
                     <div ng-repeat="manuf in manufacturers" class="panel panel-default shadowBox">
-                        <div class="panel-body" style="height: 100px;margin-bottom: 10px;">
-                            <h2 class="thinMargin pull-left">{{manuf.name}}</h2>
-                            <img ng-src="{{manuf.logo}}" class="pull-right" style="height: 60px; width: 60px"/>
-                            <p><label>{{manuf.description}}</label></p>
-                            <button ng-click="getPhones(manuf.id)"></button>
+                        <div class="panel-body" style="margin-bottom: 10px;">
+                            <div class="col-xs-6">
+                                <h2 class="thinMargin">{{manuf.name}}</h2>
+                                <img ng-src="{{manuf.logo}}" style="height: 60px; width: 60px"/>
+                                <p><label>{{manuf.description}}</label></p>
+                            </div>
+                                <button class="col-xs-6" ng-click="getPhones(manuf.id)">View Phones</button>
                         </div>
                     </div>
                 </div>

@@ -1,22 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.pitt.domain;
 
 /**
  *
  * @author dilis
  */
-public class Transaction {
+public class OrderInfo {
     private Long id;
     private Long productId;
     private Long userId;
     private Float price;
-    private String status;
+    private String orderStatus;
     private String deliveryStatus;
-    private String type;
+    private String transactionType;
 
     public Long getId() {
         return id;
@@ -47,15 +43,7 @@ public class Transaction {
     }
 
     public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+        this.setPrice((Float) price);
     }
 
     public String getDeliveryStatus() {
@@ -66,20 +54,32 @@ public class Transaction {
         this.deliveryStatus = deliveryStatus;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Override
     public String toString() {
         return "Transaction{" + "id=" + id + ", productId=" + productId + 
                 ", userId=" + userId + ", price=" + price + ", status=" + 
-                status + ", deliveryStatus=" + deliveryStatus + ", type=" 
-                + type + '}';
+                getOrderStatus() + ", deliveryStatus=" + deliveryStatus + ", type=" 
+                + getTransactionType() + '}';
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
     
 }

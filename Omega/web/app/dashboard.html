@@ -1,0 +1,100 @@
+<div style="height: 20px"></div>
+<div class="container ">
+    <h2>Dashboard</h2>
+    <div style="height: 10px"></div>
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="rounded-corners thinMargin" style="background: #E7EAEC;padding:10px">
+                <table>
+                    <tr>
+                        <td>
+                            <b>Top Brand</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <cjs-doughnut class="thinMargin" id="pie1" dataset="pieData1"
+                                        width="260" height="240">
+                            </cjs-doughnut>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-repeat="data in pieData1">
+                                <i style="margin-left:5px;"
+                                   ng-style="{'color':data.color}" 
+                                   class="fa fa-circle">
+                                </i>
+                                <span>
+                                    {{data.label}}
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="rounded-corners thinMargin" style="background: #E7EAEC;padding:10px">
+                <table>
+                    <tr>
+                        <td>
+                            <b>Sales Progress</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <cjs-line id="line1" class="thinMargin" dataset="lineData" 
+                                        width="480" height="240">
+                             </cjs-line>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-repeat="data in lineData.datasets">
+                                <i style="margin-left:5px;"
+                                   ng-style="{'color':data.strokeColor}" 
+                                   class="fa fa-circle">
+                                </i>
+                                <span>
+                                    {{data.label}}
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="rounded-corners thinMargin" style="background: #E7EAEC;padding:10px">
+                <table>
+                    <tr>
+                        <td>
+                            <b>Regional Sales</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <cjs-doughnut class="thinMargin" id="pie2" dataset="pieData2"
+                                        width="260" height="240">
+                            </cjs-doughnut>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:272px">
+                            <span ng-repeat="data in pieData2">
+                                <i style="margin-left:5px;"
+                                   ng-style="{'color':data.color}" 
+                                   class="fa fa-circle">
+                                </i>
+                                <span>
+                                    {{data.label}}
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

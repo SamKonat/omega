@@ -5,7 +5,7 @@ import com.pitt.dao.OmegaDao;
 import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.ProductInfo;
 import com.pitt.domain.UserInfo;
-import com.pitt.domain.Transaction;
+import com.pitt.domain.OrderInfo;
 import com.pitt.domain.Review;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -62,27 +63,27 @@ public class OmegaController
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "/transactions")
-    public Map<String, Object> getTransactions()
-    {
-        Map<String, Object> ret = new HashMap<>();
-        try
-        {
-            OmegaDao dao = OmegaDao.getInstancce();
-            List<Transaction> trans = dao.getTransactions();
-            ret.put("data", trans);
-            ret.put("count", trans.size());
-            
-            return ret;
-        }
-        catch(Throwable tx)
-        {
-            System.out.println("Failed to fetch list of transactions");
-            tx.printStackTrace();
-            throw new RestError(
-                "Failed to fetch list of transactions", tx.getMessage());
-        }
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/transactions")
+//    public Map<String, Object> getTransactions()
+//    {
+//        Map<String, Object> ret = new HashMap<>();
+//        try
+//        {
+//            OmegaDao dao = OmegaDao.getInstancce();
+//            List<Transaction> trans = dao.getTransactions();
+//            ret.put("data", trans);
+//            ret.put("count", trans.size());
+//            
+//            return ret;
+//        }
+//        catch(Throwable tx)
+//        {
+//            System.out.println("Failed to fetch list of transactions");
+//            tx.printStackTrace();
+//            throw new RestError(
+//                "Failed to fetch list of transactions", tx.getMessage());
+//        }
+//    }
     
     @RequestMapping(method = RequestMethod.GET, value = "/manufacturer/{id}/products")
     public Map<String, Object> getProducts(
@@ -108,7 +109,7 @@ public class OmegaController
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "/products/{id}/productdetails")
+    @RequestMapping(method = RequestMethod.GET, value = "/products/{id}/reviews")
     public Map<String, Object> getReviews(
             @PathVariable("id") long prodId
     )
@@ -153,6 +154,44 @@ public class OmegaController
             tx.printStackTrace();
             throw new RestError(
                 "Failed to fetch list of product details", tx.getMessage());
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/topBrands")
+    public List<Map<String, Object>> getTopBrands(
+            @RequestParam(value = "period", required = false) String period
+    )
+    {
+        try
+        {
+            OmegaDao dao = OmegaDao.getInstancce();
+            return dao.getBrandSales(period);
+        }
+        catch(Throwable ex)
+        {
+            System.out.println("Failed to fetch top brands");
+            ex.printStackTrace();
+            throw new RestError(
+                "Failed to fetch top brands", ex.getMessage());
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/salesTrend")
+    public Map<String, Object> getSalesTrend(
+            @RequestParam(value = "period", required = false) String period
+    )
+    {
+        try
+        {
+            OmegaDao dao = OmegaDao.getInstancce();
+            return dao.getSalesTrend(period);
+        }
+        catch(Throwable ex)
+        {
+            System.out.println("Failed to fetch sales trend");
+            ex.printStackTrace();
+            throw new RestError(
+                "Failed to fetch sales trend", ex.getMessage());
         }
     }
 }
