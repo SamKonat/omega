@@ -109,31 +109,7 @@ public class OmegaController
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "/products/{id}/reviews")
-    public Map<String, Object> getReviews(
-            @PathVariable("id") long prodId
-    )
-    {
-        Map<String, Object> ret = new HashMap<>();
-        try
-        {
-            OmegaDao dao = OmegaDao.getInstancce();
-            List<Review> det = dao.getReviews(prodId);
-            ret.put("data", det);
-            ret.put("count", det.size());
-            
-            return ret;
-        }
-        catch(Throwable tx)
-        {
-            System.out.println("Failed to fetch list of reviews");
-            tx.printStackTrace();
-            throw new RestError(
-                "Failed to fetch list of reviews", tx.getMessage());
-        }
-    }
-    
-     @RequestMapping(method = RequestMethod.GET, value = "/products/{id}/productdetails")
+       @RequestMapping(method = RequestMethod.GET, value = "/products/{id}/productdetails")
     public Map<String, Object> getProductdetails(
             @PathVariable("id") long prodId
     )
@@ -148,12 +124,36 @@ public class OmegaController
             
             return ret;
         }
-        catch(Throwable tx)
+        catch(Throwable tx) 
         {
             System.out.println("Failed to fetch list of product details");
             tx.printStackTrace();
             throw new RestError(
                 "Failed to fetch list of product details", tx.getMessage());
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/products/{id}/reviews")
+    public Map<String, Object> getReviews(
+            @PathVariable("id") long prodId
+    )
+    {
+        Map<String, Object> ret = new HashMap<>();
+        try
+        {
+            OmegaDao dao = OmegaDao.getInstancce();
+            List<Review> reviews = dao.getReviews(prodId);
+            ret.put("data", reviews);
+            ret.put("count", reviews.size());
+            
+            return ret;
+        }
+        catch(Throwable tx)
+        {
+            System.out.println("Failed to fetch list of reviews");
+            tx.printStackTrace();
+            throw new RestError(
+                "Failed to fetch list of reviews", tx.getMessage());
         }
     }
     
