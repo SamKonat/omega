@@ -1,0 +1,28 @@
+
+<div class="container ">
+    <div class="panel-group" style="margin-top: 30px;">
+        <div class="panel panel-default shadowBox" style="height: 500px">
+            <div class="panel-heading">
+                <label>Product details</label>
+            </div>
+            <div class="panel-body" style="padding-top: 30px">
+                <div ng-repeat="pdet in productdetails" class="panel panel-default shadowBox">
+                            <h3 class="thinMargin pull-left">{{pdet.productName}}</h3>
+                            <p><label>{{pdet.description}}</label></p>
+                            <p><label>Price : {{pdet.price}} $</label></p>
+                            <button ng-click="getCheckout(pdet.id)">BUY</button>
+                </div>
+                
+                    <div ng-repeat="rev in reviews" class="panel panel-default shadowBox">
+                        
+                            <h3 class="thinMargin pull-left">{{rev.productName}}</h3>
+                            <h3 class="thinMargin pull-left">{{rev.rating}}/5</h3>
+                            <p><label>{{rev.notes}}</label></p>
+                            <p><label>{{rev.date}}</label></p>
+                        
+                        
+                </div>        
+            </div>
+        </div>
+    </div>
+</div>

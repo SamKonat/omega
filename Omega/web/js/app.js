@@ -16,14 +16,14 @@ omegaApp.config(['$routeProvider', '$httpProvider',
                     templateUrl: 'app/products.html',
                     controller: 'productsCtrl'
                 }).  
-                 when('/reviews', {
-                    templateUrl: 'app/productdetails.html',
-                    controller: 'reviewsCtrl'
-                }).
                 when('/productdetails', {
-                    templateUrl: 'app/productdetails.html',
+                    templateUrl: 'app/productDetails.html',
                     controller: 'productdetailsCtrl'
-                }). 
+                }).
+                when('/checkout', {
+                    templateUrl: 'app/checkout.html',
+                    controller: 'checkoutCtrl'
+                }).
                 when('/dashboard', {
                     templateUrl: 'app/dashboard.html',
                     controller: 'dashboardCtrl'
@@ -89,33 +89,45 @@ omegaApp.controller('productsCtrl', function ($scope, $rootScope, $http,
                 $rootScope.showDanger = true;
                 $rootScope.dangerMsg = data.message;
             });
-    $scope.getDetails = function(productId)
+    $scope.getDetails = function(prodId)
     {
-        $rootScope.productId = productId;
-        $rootScope.navigate('/productsDetails');
+        $rootScope.productId = prodId;
+        $rootScope.navigate('/productdetails');
     };
-});
-
-omegaApp.controller('reviewsCtrl', function ($scope, $rootScope, $http, 
-    $routeParams)
-{
-    $rootScope.resetDialogs();
-    $http.get($rootScope.httpUrl + "/api/products" + $rootScope.productId + "/productdetails")
-            .success(function(data){
-                $scope.reviews = data.data;
-            }).error(function(data){
-                $rootScope.showDanger = true;
-                $rootScope.dangerMsg = data.message;
-            });
 });
 
 omegaApp.controller('productdetailsCtrl', function ($scope, $rootScope, $http, 
     $routeParams)
 {
     $rootScope.resetDialogs();
-    $http.get($rootScope.httpUrl + "/api/products" + $rootScope.productId + "/productdetails")
+    $http.get($rootScope.httpUrl + "/api/products/" + $rootScope.productId + "/productdetails")
             .success(function(data){
                 $scope.productdetails = data.data;
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            });
+    $rootScope.resetDialogs();
+    $http.get($rootScope.httpUrl + "/api/products/" + $rootScope.productId + "/reviews")
+            .success(function(data){
+                $scope.reviews = data.data;
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            });
+     $scope.getCheckout = function(orderId)
+     {
+       $rootScope.orderId = orderId;
+       $rootScope.navigate('/checkout');
+     };
+});
+omegaApp.controller('checkoutCtrl', function ($scope, $rootScope, $http, 
+    $routeParams)
+{
+    $rootScope.resetDialogs();
+    $http.get($rootScope.httpUrl + "/api/productdetails/" + $rootScope.orderId + "/checkout")
+            .success(function(data){
+                $scope.checkout = data.data;
             }).error(function(data){
                 $rootScope.showDanger = true;
                 $rootScope.dangerMsg = data.message;
