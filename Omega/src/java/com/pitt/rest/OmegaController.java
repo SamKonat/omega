@@ -90,14 +90,15 @@ public class OmegaController
     
     @RequestMapping(method = RequestMethod.GET, value = "/manufacturer/{id}/products")
     public Map<String, Object> getProducts(
-            @PathVariable("id") long manId
+            @PathVariable("id") long manId,
+            @RequestParam(value = "outOfStock", required = false) Boolean outOfStk
     )
     {
         Map<String, Object> ret = new HashMap<>();
         try
         {
             OmegaDao dao = OmegaDao.getInstancce();
-            List<ProductInfo> productsList = dao.getProducts(manId);
+            List<ProductInfo> productsList = dao.getProducts(manId, outOfStk);
             ret.put("data", productsList);
             ret.put("count", productsList.size());
             
@@ -195,6 +196,26 @@ public class OmegaController
             ex.printStackTrace();
             throw new RestError(
                 "Failed to fetch sales trend", ex.getMessage());
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.PUT, 
+        value = "/product/{id}/quantity/{quantity}")
+    public void updateProductQuantity(
+        @PathVariable("id") long productId,
+        @PathVariable("quantity") int quantity
+    ) {
+        try
+        {
+            OmegaDao dao = OmegaDao.getInstancce();
+            dao.updateProductQuantity(productId, quantity);
+        }
+        catch(Throwable tx)
+        {
+            System.out.println("Failed to update product quantity");
+            tx.printStackTrace();
+            throw new RestError(
+                "Failed to update product quantity", tx.getMessage());
         }
     }
 }

@@ -14,6 +14,7 @@ public class ProductInfo {
     private String productName;
     private String description;
     private Long manufacturerId;
+    private String manufacturerName;
     private String image;
     private Float price;
     private Integer quantity;
@@ -84,4 +85,12 @@ public class ProductInfo {
                 ", image=" + image + ", price=" + price + ", quantity=" + 
                 quantity + '}';
     } 
+
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
 }

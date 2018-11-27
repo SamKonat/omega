@@ -186,16 +186,21 @@ public class OmegaDao
 //        }
 //    } 
     
-    public List<ProductInfo> getProducts(long manId) throws Exception
+    public List<ProductInfo> getProducts(long manId, Boolean outOfStock) 
+            throws Exception
     {
         Connection conn = null;
         try
         {
             List<ProductInfo> productsList = new ArrayList<>();
+            String xtraWhere = "";
+            if(outOfStock != null && outOfStock)
+                xtraWhere = " and p_quantity < 1";
             String sql = "select p_id, p_name, p_description, "
-                + "p_quantity, p_price "
-                + "from products where p_manufacturer_id = " 
-                + manId + ";";
+                + "p_quantity, p_price, pm_name "
+                + "from products, phone_manufacturer where pm_id = "
+                + "p_manufacturer_id and p_manufacturer_id = " 
+                + manId + xtraWhere + ";";
             conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -209,7 +214,7 @@ public class OmegaDao
                     products.setDescription(rs.getString("p_description"));
                     products.setPrice(rs.getFloat("p_price"));
                     products.setQuantity(rs.getInt("p_quantity"));
-                    
+                    products.setManufacturerName(rs.getString("pm_name"));
                     
                     productsList.add(products);
                 }
@@ -395,7 +400,6 @@ public class OmegaDao
                 + " from phone_manufacturer m, products p, orders o where "
                 + "o.od_product_id = p.p_id and p.p_manufacturer_id = m.pm_id " 
                 + xtraWhere + " order by od_creation_date desc limit 10;";
-            System.out.println(sql);
             conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -436,6 +440,34 @@ public class OmegaDao
             System.out.println("Failed to find sales trend from database");
             ex.printStackTrace();
             throw ex;
+        }
+        finally
+        {
+            conn.close();
+        }
+    }
+    
+    public void updateProductQuantity(long productId, int quantity) 
+            throws Exception
+    {
+        Connection conn = null;
+        try
+        {
+            String sql = "update products set p_quantity = " + quantity 
+                + " where p_id = " + productId;
+            conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Failed to update product quantity");
+            ex.printStackTrace();
+            throw ex;
+        }
+        finally
+        {
+            conn.close();
         }
     }
 }

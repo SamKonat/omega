@@ -8,12 +8,18 @@
                 <div class="panel-group" style="margin-top: 30px;">
                     <div ng-repeat="manuf in manufacturers" class="panel panel-default shadowBox">
                         <div class="panel-body" style="margin-bottom: 10px;">
-                            <div class="col-xs-6">
-                                <h2 class="thinMargin">{{manuf.name}}</h2>
-                                <img ng-src="{{manuf.logo}}" style="height: 60px; width: 60px"/>
-                                <p><label>{{manuf.description}}</label></p>
-                            </div>
-                                <button class="col-xs-6" ng-click="getPhones(manuf.id)">View Phones</button>
+                            <table>
+                                <tr style="width:100%">
+                                    <td>
+                                        <h2 class="thinMargin">{{manuf.name}}</h2>
+                                        <img ng-src="{{manuf.logo}}" style="height: 60px; width: 60px"/>
+                                        <p><label>{{manuf.description}}</label></p>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <button ng-click="getPhones(manuf.id)">View Phones</button>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>

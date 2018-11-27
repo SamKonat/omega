@@ -32,6 +32,10 @@ omegaApp.config(['$routeProvider', '$httpProvider',
                     templateUrl: 'app/signIn.html',
                     controller: 'signInCtrl'
                 }).
+                when('/inventory', {
+                    templateUrl: 'app/inventory.html',
+                    controller: 'inventoryCtrl'
+                }).
                 otherwise({
                     redirectTo: '/'
                 });
@@ -65,7 +69,7 @@ omegaApp.run(function ($rootScope,$filter, $route, $http, $cookies,
 omegaApp.controller('omegaCtrl', function ($scope, $rootScope, $http, 
     $routeParams)
 {
-    
+    $rootScope.isAdmin = false;
 });
 
 omegaApp.controller('homeCtrl', function ($scope, $rootScope, $http, 
@@ -154,6 +158,7 @@ omegaApp.controller('productdetailsCtrl', function ($scope, $rootScope, $http,
        $rootScope.navigate('/checkout');
      };
 });
+
 omegaApp.controller('checkoutCtrl', function ($scope, $rootScope, $http, 
     $routeParams)
 {
@@ -259,4 +264,61 @@ omegaApp.controller('dashboardCtrl', function ($scope, $rootScope, $http,
             label : "Apple"
     }];
 
+});
+
+
+omegaApp.controller('inventoryCtrl', function ($scope, $rootScope, $http, 
+    $routeParams)
+{
+    $scope.fetchProducts = function(manId, outOfStk)
+    {
+        if(outOfStk == null)
+            outOfStk = false;
+        $rootScope.showDanger = false;
+        $http.get($rootScope.httpUrl + "/api/manufacturer/" + manId 
+                + "/products?outOfStock=" + outOfStk)
+            .success(function(data){
+                $scope.products = data.data;
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            });
+    }
+    
+    $rootScope.resetDialogs();
+    $http.get($rootScope.httpUrl + "/api/manufacturers")
+            .success(function(data){
+                $scope.manufacturers = data.data;
+                if($scope.manufacturers.length > 0) {
+                    $scope.manId = $scope.manufacturers[0].id;
+                    $scope.fetchProducts($scope.manId, false);
+                }
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            });
+       
+    $scope.showDialog = function(product)
+    {
+        $scope.selectedProduct = product;
+        $scope.quantity = product.quantity;
+        $("#ivModal").modal("show");
+    }
+    
+    $scope.saveQuantity = function(quantity)
+    {
+        $rootScope.resetDialogs();
+        $http.put($rootScope.httpUrl + "/api/product/" + $scope.selectedProduct.id
+                + "/quantity/" + quantity)
+                .success(function(data){
+                    $("#ivModal").modal("hide");
+                    $rootScope.showSuccess = true;
+                    $rootScope.successMsg = "Quantity of " 
+                        + $scope.selectedProduct.productName + " updated successfuly!";
+                    $scope.fetchProducts($scope.manId, $scope.outOfStk);
+                }).error(function(data){
+                    $rootScope.showDanger = true;
+                    $rootScope.dangerMsg = data.message;
+                });
+    }
 });

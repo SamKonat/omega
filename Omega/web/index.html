@@ -43,13 +43,16 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <li ng-if="$root.isAdmin" class="nav-item active">
+                            <a class="nav-link" href="#/dashboard">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                        <li ng-if="$root.isAdmin" class="nav-item">
+                            <a class="nav-link" href="#/inventory">Inventory</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li ng-if="$root.isAdmin" class="nav-item">
+                            <a class="nav-link" href="#/orders">Orders</a>
+                        </li>
+<!--                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Dropdown
                             </a>
@@ -59,10 +62,10 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </li>
-                        <li class="nav-item">
+                        </li>-->
+<!--                        <li class="nav-item">
                             <a class="nav-link disabled" href="#">Disabled</a>
-                        </li>
+                        </li>-->
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -72,19 +75,11 @@
                 </div>
             </nav>
             <div class="alert alert-success" ng-show="$root.showSuccess">
-                <strong>Success!</strong> Indicates a successful or positive action.
-            </div>
-
-            <div class="alert alert-info" ng-show="$root.showInfo">
-                <strong>Info!</strong> Indicates a neutral informative change or action.
-            </div>
-
-            <div class="alert alert-warning" ng-show="$root.showWarn">
-                <strong>Warning!</strong> Indicates a warning that might need attention.
+                <strong>Success!</strong> {{$root.successMsg}}
             </div>
 
             <div class="alert alert-danger" ng-show="$root.showDanger">
-                <strong>Danger!</strong> {{$root.dangerMsg}}
+                <strong>Error!</strong> {{$root.dangerMsg}}
             </div>
             <ng-view></ng-view>
         </div>
