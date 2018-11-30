@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class OmegaDao 
 {
@@ -57,19 +59,19 @@ public class OmegaDao
         }
     }
     
-    public List<UserInfo> getUsers(String userName, String password) throws Exception
+    public UserInfo getUsers(String userName, String password) throws Exception
     {
         Connection conn = null;
         try
         {
-            List<UserInfo> users = new ArrayList<>();
-            String sql = "select ou_id, ou_password, ou_first_name, "
-                + "ou_last_name, ou_email, "
-                + "ou_address, ou_ph_number, ou_role_id, ur_name, "
-                + "DATE_FORMAT(ou_creation_date, '%m-%d-%Y %H:%i:%s') as "
-                + "ou_cr_time, DATE_FORMAT(ou_modified_date, "
-                + "'%m-%d-%Y %H:%i:%s') as ou_mo_time from omega_user, "
-                + "ou_email = '"+userName+"' and ou_password = '"+password+"';";
+            UserInfo user = new UserInfo();
+            String sql = "select ou_id, ou_password, ou_first_name,ou_last_name,"
+                    + " ou_email, ou_address, ou_ph_number, ou_role_id, "
+                    + "DATE_FORMAT(ou_creation_date, '%m-%d-%Y %H:%i:%s') "
+                    + "as ou_cr_time, DATE_FORMAT"
+                    + "(ou_modified_date,'%m-%d-%Y %H:%i:%s') "
+                    + "as ou_mo_time from omega_user where "
+                    + "ou_email = '"+userName+"' and ou_password ='"+password+"';";
             conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -77,26 +79,55 @@ public class OmegaDao
             if(rs != null)
                 while(rs.next())
                 {
-                    UserInfo usr = new UserInfo();
-                    usr.setId(rs.getLong("ou_id"));
-                    usr.setFirstName(rs.getString("ou_first_name"));
-                    usr.setLastName(rs.getString("ou_last_name"));
-                    usr.setEmail(rs.getString("ou_email"));
-                    usr.setPassword("ou_password");
-                    usr.setAddress(rs.getString("ou_address"));
-                    usr.setPhoneNumber(rs.getString("ou_ph_number"));
-                    usr.setRoleId(rs.getInt("ou_role_id"));
-                    usr.setRoleName(rs.getString("ur_name"));
-                    usr.setCreatedTime(rs.getString("ou_cr_time"));
-                    usr.setModifiedTime(rs.getString("ou_mo_time"));
+                    user.setId(rs.getLong("ou_id"));
+                    user.setFirstName(rs.getString("ou_first_name"));
+                    user.setLastName(rs.getString("ou_last_name"));
+                    user.setEmail(rs.getString("ou_email"));
+                    user.setPassword("ou_password");
+                    user.setAddress(rs.getString("ou_address"));
+                    user.setPhoneNumber(rs.getString("ou_ph_number"));
+                    user.setRoleId(rs.getInt("ou_role_id"));
+                    user.setCreatedTime(rs.getString("ou_cr_time"));
+                    user.setModifiedTime(rs.getString("ou_mo_time"));
                     
-                    users.add(usr);
                 }
-            return users;
+            return user;
         }
         catch(Exception ex)
         {
             System.out.println("Incorrect Username or password");
+            ex.printStackTrace();
+            throw ex;
+        }
+        finally
+        {
+            conn.close();
+        }
+    }
+    
+    public void addUsers(UserInfo login) throws Exception {
+        
+        Connection conn = null;
+        try {
+            
+            String sql = "INSERT INTO omega_user(ou_first_name, ou_last_name, "
+                    + "ou_email, ou_ph_number, ou_address, ou_role_id, ou_password) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?);";
+            conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, login.getFirstName());
+            ps.setString(2, login.getLastName());
+            ps.setString(3, login.getEmail());
+            ps.setString(4, login.getPhoneNumber());
+            ps.setString(5, login.getAddress());
+            ps.setString(6, "1");
+            ps.setString(7, login.getPassword());
+            ps.execute();
+            
+        } catch(Exception ex)
+        {
+            System.out.println("Failed to fetch phone manufacturers from "
+                    + "database");
             ex.printStackTrace();
             throw ex;
         }

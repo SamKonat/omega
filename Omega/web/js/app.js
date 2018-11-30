@@ -32,6 +32,10 @@ omegaApp.config(['$routeProvider', '$httpProvider',
                     templateUrl: 'app/signIn.html',
                     controller: 'signInCtrl'
                 }).
+                when('/signUp', {
+                    templateUrl: 'app/signUp.html',
+                    controller: 'signUpCtrl'
+                }).
                 otherwise({
                     redirectTo: '/'
                 });
@@ -55,7 +59,7 @@ omegaApp.run(function ($rootScope,$filter, $route, $http, $cookies,
     
     $rootScope.navigate = function(path)
     {
-        if(path != "/signIn")
+        if(path != "/signIn" && path != "/signUp")
             $rootScope.currentPage = path;
         
         $location.path(path);
@@ -65,6 +69,10 @@ omegaApp.run(function ($rootScope,$filter, $route, $http, $cookies,
 omegaApp.controller('omegaCtrl', function ($scope, $rootScope, $http, 
     $routeParams)
 {
+    $scope.signIn = function()
+    {
+        $rootScope.navigate('/signIn');
+    };
     
 });
 
@@ -84,11 +92,7 @@ omegaApp.controller('homeCtrl', function ($scope, $rootScope, $http,
         $rootScope.manufacturerId = manId;
         $rootScope.navigate('/products');
     };
-    
-    $scope.signIn = function()
-    {
-        $rootScope.navigate('/signIn');
-    };
+
 });
 
 omegaApp.controller('productsCtrl', function ($scope, $rootScope, $http, 
@@ -119,6 +123,7 @@ omegaApp.controller('signInCtrl', function ($scope, $rootScope, $http,
     $scope.executeLogin = function(login) {
         $http.post($rootScope.httpUrl + "/api/login", login)  
             .success(function(data){
+                $rootScope.userInfo = data;
                 $rootScope.navigate($rootScope.currentPage);
 
             }).error(function(data){
@@ -127,6 +132,26 @@ omegaApp.controller('signInCtrl', function ($scope, $rootScope, $http,
             })
   
         };
+    $scope.signUp = function()
+    {
+        $rootScope.navigate('/signUp');
+    };
+});
+
+omegaApp.controller('signUpCtrl', function ($scope, $rootScope, $http, 
+    $routeParams)
+{
+    $rootScope.resetDialogs();
+    $scope.addUser = function(login){
+        $http.post($rootScope.httpUrl + "/api/signUp", login)  
+            .success(function(data){
+                $rootScope.navigate($rootScope.currentPage);
+
+            }).error(function(data){
+                $rootScope.showDanger = true;
+                $rootScope.dangerMsg = data.message;
+            }) 
+    };
 });
 
 omegaApp.controller('productdetailsCtrl', function ($scope, $rootScope, $http, 
