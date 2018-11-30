@@ -1,0 +1,53 @@
+<div class="container ">
+    <div class="panel-group" style="margin-top: 30px;">
+        <div class="panel panel-default shadowBox" style="height: 655px">
+            <div class="panel-heading">
+                <label>Sign Up</label>
+            </div>
+            <div class="panel-body" style="padding-top: 30px">
+<div ng-show="error" class="alert alert-danger">{{error}}</div>
+<form name="form" ng-submit="addUser(login)" role="form">
+    <div class="form-group" style="margin-left: 300px; margin-right: 300px;">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" id="firstName" width="70%" align="center" class="form-control"  ng-model="login.firstName" required />
+        <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
+    </div>
+    <div class="form-group" style="margin-left: 300px; margin-right: 300px;">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.lastName" required />
+        <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
+    </div>
+    <div class="form-group" style="margin-left: 300px; margin-right: 300px;">
+        <label for="email">E-mail Id</label>
+        <i class="fa fa-envelope"></i>
+        <input type="text" name="email" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.email" required />
+        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">E-mail Id is required</span>
+    </div>
+    <div class="form-group" style="margin-left: 300px; margin-right: 300px;">
+        <label for="password">Password</label>
+        <i class="fa fa-lock"></i>
+        <input type="password" name="password" id="password" class="form-control" ng-model="login.password" required />
+        <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+    </div>
+    <div class="form-group" style="margin-left: 300px; margin-right: 300px;">
+        <label for="address">Address</label>
+        <i class="fa fa-home"></i>
+        <input type="text" name="address" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.address" required />
+        <span ng-show="form.address.$dirty && form.address.$error.required" class="help-block">Address is required</span>
+    </div>
+    <div class="form-group" style="margin-left: 300px; margin-right: 300px;">
+        <label for="phoneNumber">Contact number</label>
+        <i class="fa fa-phone"></i>
+        <input type="text" name="phoneNumber" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.phoneNumber" required />
+        <span ng-show="form.phoneNumber.$dirty && form.phoneNumber.$error.required" class="help-block">Contact number is required</span>
+    </div>
+    <div class="form-actions" style="margin-left: 500px; margin-right: 500px;">
+        <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Sign In</button>
+        <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+    </div>
+    
+</form>      
+            </div>
+        </div>
+    </div>
+</div>

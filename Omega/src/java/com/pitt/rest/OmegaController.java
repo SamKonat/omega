@@ -20,20 +20,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OmegaController 
 {
-    private static HashMap<String, Boolean> LOGGED_IN_USERS = new HashMap<>();
+    private static HashMap<Long, Boolean> LOGGED_IN_USERS = new HashMap<>();
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public Map<String, Object> getUsers(@RequestBody UserInfo login)
+    public UserInfo login(@RequestBody UserInfo login)
     {
-        Map<String, Object> ret = new HashMap<>();
         try
         {
             OmegaDao dao = OmegaDao.getInstancce();
-            List<UserInfo> users = dao.getUsers(login.getEmail(), login.getPassword());
-            LOGGED_IN_USERS.put(users.get(0).getEmail(), true);
-            ret.put("data", users);
-            ret.put("count", users.size());
+            UserInfo users = dao.getUsers(login.getEmail(), login.getPassword());
+            LOGGED_IN_USERS.put(users.getId(), true);
+            return users;
+        }
+        catch(Throwable tx)
+        {
+            System.out.println("Failed to fetch list of users");
+            tx.printStackTrace();
+            throw new RestError("Failed to fetch list of users", 
+                    tx.getMessage());
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/signUp")
+    public void addUser(@RequestBody UserInfo login)
+    {
+        //Map<String, Object> ret = new HashMap<>();
+        try
+        {
+            OmegaDao dao = OmegaDao.getInstancce();
+            dao.addUsers(login);
+            System.out.println("User added sucessfully");
             
-            return ret;
         }
         catch(Throwable tx)
         {
