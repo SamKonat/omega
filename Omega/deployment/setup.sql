@@ -104,8 +104,50 @@ CREATE TABLE payments (
     pay_id               BIGINT AUTO_INCREMENT PRIMARY KEY,
     pay_card_name        VARCHAR(128) NOT NULL,
     pay_card_number      VARCHAR(64) NOT NULL,
-    pay_card_expiry      TIMESTAMP NOT NULL,
+    pay_card_expiry      VARCHAR(16) NOT NULL,
     pay_card_cvv         VARCHAR(16) NOT NULL,
     pay_order_id         BIGINT NOT NULL UNIQUE,
     FOREIGN KEY(pay_order_id) REFERENCES orders(od_id)
 );
+
+DELIMITER $$
+CREATE PROCEDURE purchase_product(IN prod_id BIGINT, IN quantity INT, 
+    IN user_id BIGINT, IN price FLOAT, IN order_status VARCHAR(64),
+    IN pay_type VARCHAR(64), IN c_name VARCHAR(128), IN c_number VARCHAR(64), 
+    IN c_expiry VARCHAR(16), IN cvv VARCHAR(16), IN d_address VARCHAR(255), 
+    IN d_city VARCHAR(64), IN d_state VARCHAR(64), IN d_status VARCHAR(64), 
+    IN d_zip VARCHAR(64), IN d_expected_date DATE)
+BEGIN
+    DECLARE prd_cnt INT;
+    DECLARE new_order_id BIGINT;
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+    DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+
+    START TRANSACTION;
+
+    SELECT p_quantity INTO prd_cnt FROM products WHERE p_id = prod_id;
+
+    IF prd_cnt > 0
+    THEN
+        UPDATE products SET p_quantity = (p_quantity - quantity) WHERE p_id = prod_id;
+
+        INSERT INTO orders(od_product_id,od_user_id,od_price,od_order_status,
+        od_payment_type) VALUES(prod_id,user_id,price,order_status,pay_type);
+        
+        SELECT LAST_INSERT_ID() INTO new_order_id;
+
+        INSERT INTO payments(pay_card_name,pay_card_number,pay_card_expiry,
+        pay_card_cvv,pay_order_id) VALUES(c_name,c_number,c_expiry,cvv,new_order_id);
+
+        INSERT INTO delivery_detail(dd_dest_address,dd_dest_city,dd_dest_state,
+        dd_dest_zip,dd_status,dd_expected_date,dd_order_id) VALUES(d_address,
+        d_city,d_state,d_zip,d_status,d_expected_date,new_order_id);
+    END IF;
+
+    SELECT prd_cnt;
+
+    COMMIT;
+
+END $$
+DELIMITER ;
