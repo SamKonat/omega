@@ -17,7 +17,8 @@ public class UserInfo
     private Integer roleId;
     private String createdTime;
     private String modifiedTime;
-    
+    private Boolean isAdmin;
+
     public UserInfo(){}
 
     public Long getId() {
@@ -107,5 +108,14 @@ public class UserInfo
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+    
     
 }

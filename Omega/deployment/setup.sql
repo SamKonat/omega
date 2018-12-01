@@ -99,3 +99,13 @@ CREATE TABLE reviews (
     FOREIGN KEY(r_product_id ) REFERENCES products(p_id),
     FOREIGN KEY(r_user_id ) REFERENCES omega_user(ou_id)
 );
+
+CREATE TABLE payments (
+    pay_id               BIGINT AUTO_INCREMENT PRIMARY KEY,
+    pay_card_name        VARCHAR(128) NOT NULL,
+    pay_card_number      VARCHAR(64) NOT NULL,
+    pay_card_expiry      TIMESTAMP NOT NULL,
+    pay_card_cvv         VARCHAR(16) NOT NULL,
+    pay_order_id         BIGINT NOT NULL UNIQUE,
+    FOREIGN KEY(pay_order_id) REFERENCES orders(od_id)
+);

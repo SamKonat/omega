@@ -129,7 +129,12 @@ omegaApp.controller('signInCtrl', function ($scope, $rootScope, $http,
         $http.post($rootScope.httpUrl + "/api/login", login)  
             .success(function(data){
                 $rootScope.userInfo = data;
-                $rootScope.navigate($rootScope.currentPage);
+                if($rootScope.userInfo.isAdmin){
+                    $rootScope.navigate('/dashboard');
+                }
+                else{
+                    $rootScope.navigate($rootScope.currentPage);
+                }
 
             }).error(function(data){
                 $rootScope.showDanger = true;
@@ -178,10 +183,15 @@ omegaApp.controller('productdetailsCtrl', function ($scope, $rootScope, $http,
                 $rootScope.showDanger = true;
                 $rootScope.dangerMsg = data.message;
             });
-     $scope.getCheckout = function(orderId)
+     $scope.getCheckout = function(productId)
      {
-       $rootScope.orderId = orderId;
+       if($rootScope.userInfo != null){
+           $rootScope.productId = productId;
        $rootScope.navigate('/checkout');
+       }
+       else{
+          $rootScope.navigate('/signIn'); 
+       }
      };
 });
 
@@ -190,11 +200,7 @@ omegaApp.controller('checkoutCtrl', function ($scope, $rootScope, $http,
 {
     $rootScope.resetDialogs();
     $http.get($rootScope.httpUrl + "/api/productdetails/" + $rootScope.orderId + "/checkout")
-            .success(function(data){
-                $scope.checkout = data.data;
-            }).error(function(data){
-                $rootScope.showDanger = true;
-                $rootScope.dangerMsg = data.message;
+            .success().error(function(data){    
             });
 });
 

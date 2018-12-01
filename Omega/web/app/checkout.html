@@ -1,0 +1,90 @@
+<style>
+.create-account-callout {
+    border: 1px solid #d8dee2;
+    border-radius: 5px;
+    padding: 15px 20px;
+    
+    margin-top: 16px!important;
+}
+.auth-form {
+    margin: 0 auto;
+    width: 700px;
+}
+
+</style>
+<div ng-show="error" class="alert alert-danger">{{error}}</div>
+<div class="auth-form">
+     <form name="form" ng-submit="complete(payment, login)" role="form">
+        <div class="create-account-callout">
+            <h3>Billing Address</h3>
+            <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" id="firstName" width="70%" align="center" class="form-control"  ng-model="login.firstName" required />
+        <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.lastName" required />
+        <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
+    </div>
+    <div class="form-group">
+        <label for="email">E-mail Id</label>
+        <i class="fa fa-envelope"></i>
+        <input type="text" name="email" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.email" required />
+        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">E-mail Id is required</span>
+    </div>
+            <div class="form-group">
+        <label for="address">Address</label>
+        <i class="fa fa-home"></i>
+        <input type="text" name="address" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.address" required />
+        <span ng-show="form.address.$dirty && form.address.$error.required" class="help-block">Address is required</span>
+    </div>
+    <div class="form-group">
+        <label for="phoneNumber">Contact number</label>
+        <i class="fa fa-phone"></i>
+        <input type="text" name="phoneNumber" id="lastName" width="70%" align="center" class="form-control"  ng-model="login.phoneNumber" required />
+        <span ng-show="form.phoneNumber.$dirty && form.phoneNumber.$error.required" class="help-block">Contact number is required</span>
+    </div>
+        </div>
+         <div class="create-account-callout">
+            <h3>Payment</h3>
+            <label for="fname">Accepted Cards</label>
+            <div class="icon-container">
+              <i class="fa fa-cc-visa" style="color:navy;"></i>
+              <i class="fa fa-cc-amex" style="color:blue;"></i>
+              <i class="fa fa-cc-mastercard" style="color:red;"></i>
+              <i class="fa fa-cc-discover" style="color:orange;"></i>
+            </div>
+            <div class="form-group">
+                <label for="cardName">Name on Card</label>
+                <input type="text" name="cardName" id="cardName" width="70%" align="center" class="form-control"  ng-model="payment.cardName" required />
+                <span ng-show="form.cardName.$dirty && form.cardName.$error.required" class="help-block">Name is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="cardNo">Card Number</label>
+                <input type="text" name="cardNo" id="cardName" width="70%" align="center" class="form-control"  ng-model="payment.cardNo" required />
+                <span ng-show="form.cardNo.$dirty && form.cardNo.$error.required" class="help-block">Card number is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="cardExpiry">Card Expiry</label>
+                <input type="text" name="cardExpiry" id="cardExpiry" width="70%" align="center" class="form-control"  ng-model="payment.cardExpiry" required />
+                <span ng-show="form.cardExpiry.$dirty && form.cardExpiry.$error.required" class="help-block">Expiry date is required</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="cardCvv">CVV</label>
+                <input type="text" name="cardCvv" id="cardExpiry" width="70%" align="center" class="form-control"  ng-model="payment.cardCvv" required />
+                <span ng-show="form.cardCvv.$dirty && form.cardCvv.$error.required" class="help-block">CVV is required</span>
+            </div>
+          </div>
+        <label>
+          <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+        </label>
+        <div class="form-actions">
+        <button align="center" type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger">Make Payment</button>
+        <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+    </div>
+    </form>
+</div>

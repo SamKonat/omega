@@ -7,6 +7,7 @@ import com.pitt.domain.ManufacturerInfo;
 import com.pitt.domain.ProductInfo;
 import com.pitt.domain.UserInfo;
 import com.pitt.domain.OrderInfo;
+import com.pitt.domain.PaymentInfo;
 import com.pitt.domain.Review;
 import com.pitt.util.StringUtils;
 import java.sql.Connection;
@@ -66,12 +67,12 @@ public class OmegaDao
         {
             UserInfo user = new UserInfo();
             String sql = "select ou_id, ou_password, ou_first_name,ou_last_name,"
-                    + " ou_email, ou_address, ou_ph_number, ou_role_id, "
+                    + " ou_email, ou_address, ou_ph_number, ou_role_id, ur_admin,"
                     + "DATE_FORMAT(ou_creation_date, '%m-%d-%Y %H:%i:%s') "
                     + "as ou_cr_time, DATE_FORMAT"
                     + "(ou_modified_date,'%m-%d-%Y %H:%i:%s') "
-                    + "as ou_mo_time from omega_user where "
-                    + "ou_email = '"+userName+"' and ou_password ='"+password+"';";
+                    + "as ou_mo_time from omega_user, user_role where "
+                    + "ou_email = '"+userName+"' and ou_password ='"+password+"' and ur_id = ou_role_id;";
             conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -89,6 +90,7 @@ public class OmegaDao
                     user.setRoleId(rs.getInt("ou_role_id"));
                     user.setCreatedTime(rs.getString("ou_cr_time"));
                     user.setModifiedTime(rs.getString("ou_mo_time"));
+                    user.setIsAdmin(rs.getBoolean("ur_admin"));
                     
                 }
             return user;
@@ -418,7 +420,8 @@ public class OmegaDao
             if(period != null) {
                 switch(xtraWhere) {
                     case "mothly" :
-                        xtraSelect = " substring(monthname(od_creation_date), 1, 3) as label ";
+                        xtraSelect = " substring(monthname(od_creation_date), "
+                                + "1, 3) as label ";
                         xtraWhere = " group by month(od_creation_date)";
                         break;
                     case "yearly" :
@@ -493,6 +496,51 @@ public class OmegaDao
         catch(Exception ex)
         {
             System.out.println("Failed to update product quantity");
+            ex.printStackTrace();
+            throw ex;
+        }
+        finally
+        {
+            conn.close();
+        }
+    }
+    
+    public List<PaymentInfo> getPaymentInfo(String cardName, String cardNo, 
+            String cardExpiry, String cardCvv) throws Exception
+    {
+        Connection conn = null;
+        try
+        {
+            List<PaymentInfo> paymentsList = new ArrayList<>();
+            String sql = "select pay_id, pay_card_name, pay_card_number, "
+                + "pay_card_expiry, pay_card_cvv, pay_order_id "
+                + "from payments where p_id = " 
+                + "where pay_card_name = '"+cardName+"' and pay_card_number = "
+                    + "'"+cardNo+"' and pay_card_expiry = '"+cardExpiry+"' "
+                    + "and pay_card_cvv= '"+cardCvv+"';";
+            conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs != null)
+                while(rs.next())
+                {
+                    PaymentInfo pi = new PaymentInfo();
+                    pi.setId(rs.getLong("pay_id"));
+                    pi.setCardName(rs.getString("pay_card_name"));
+                    pi.setCardNo(rs.getString("pay_card_number"));
+                    pi.setCardExpiry(rs.getString("pay_card_expiry"));
+                    pi.setCardCvv(rs.getString("pay_card_cvv"));
+                    pi.setOrderId(rs.getLong("pay_order_id"));
+                    
+                    paymentsList.add(pi);
+                }
+            return paymentsList;
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Failed to fetch payment details from "
+                    + "database");
             ex.printStackTrace();
             throw ex;
         }
