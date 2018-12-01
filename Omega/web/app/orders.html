@@ -1,0 +1,127 @@
+<div style="height: 20px"></div>
+<div class="container ">
+    <b style="font-size: 20px">Orders</b>
+    
+    <span class="pull-right" style="cursor: pointer">
+        <span class="fa-stack" data-toggle="modal" data-target="#orderSearch">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-search fa-stack-1x fa-inverse"></i>
+        </span>
+    </span>
+    <div style="height: 10px"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Price</th>
+                <th scope="col">Order Status</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Delivery Status</th>
+                <th scope="col">Delivery Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="(idx, odr) in orders">
+                <th scope="row">{{idx+1}}</th>
+                <td>{{odr.productName}}</td>
+                <td>{{odr.manufacturerName}}</td>
+                <td>{{odr.price}}</td>
+                <td>{{odr.orderStatus}}</td>
+                <td>{{odr.orderDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{odr.deliveryStatus}}</td>
+                <td>{{odr.deliveryDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
+    <!---Pagination Ends--> 
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="orderSearch">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Search Orders</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <table style="margin: 10px">
+            <tr>
+                <th colspan="2">Filter By:</th>
+            </tr>
+            <tr>
+                <td>Manufacturer</td>
+                <td>
+                    <select ng-options="man.id as man.name for man in manufacturers"
+                            ng-change="fetchProducts(orderFilterInfo.manufacturerId)"
+                            ng-model="orderFilterInfo.manufacturerId">
+                        <option value="">---Select---</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Product</td>
+                <td>
+                    <select ng-options="prd.id as prd.productName for prd in products"
+                            ng-model="orderFilterInfo.productId">
+                        <option value="">---Select---</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td>
+                    <input type="text" ng-model="orderFilterInfo.city" />
+                </td>
+            </tr>
+            <tr>
+                <td>Order Status</td>
+                <td>
+                    <select ng-model="orderFilterInfo.orderStatus">
+                        <option value="">---Select---</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Canceled">Canceled</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Deliver Status</td>
+                <td>
+                    <input type="text" ng-model="orderFilterInfo.userEmail" />
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table style="margin: 10px">
+            <tr>
+                <th colspan="2">Sort By:</th>
+            </tr>
+            <tr>
+                <td>Order Date</td>
+                <td>
+                    <select ng-model="sortOrder">
+                        <option value="">---Select---</option>
+                        <option value="ASC">Ascending</option>
+                        <option value="DESC">Descending</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary"
+                ng-click="searchOrders(orderFilterInfo)">Search</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
